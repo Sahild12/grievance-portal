@@ -25,24 +25,39 @@ if (loginForm) {
         e.preventDefault();
         const idNumber = document.getElementById('idInput').value;
         const password = document.getElementById('passwordInput').value;
-
-        const res = await fetch(`${API_URL}/login`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ idNumber, password, role: selectedRole })
-        });
         
-        const data = await res.json();
-        if (data.success) {
-            localStorage.setItem('user', JSON.stringify(data.user));
-            // Route based on role
-            if (data.user.role === 'official') {
-                window.location.href = 'official-dashboard.html';
-            } else {
-                window.location.href = 'dashboard.html';
+        console.log('Login attempt:', { idNumber, role: selectedRole });
+
+        try {
+            const res = await fetch(`${API_URL}/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ idNumber, password, role: selectedRole })
+            });
+            
+            if (!res.ok) {
+                throw new Error(`Login API error: ${res.status}`);
             }
-        } else {
-            alert('Login Failed - Invalid Credentials');
+            
+            const data = await res.json();
+            console.log('Login response:', data);
+            
+            if (data.success) {
+                console.log('Login successful for:', data.user.name);
+                localStorage.setItem('user', JSON.stringify(data.user));
+                // Route based on role
+                if (data.user.role === 'official') {
+                    window.location.href = 'official-dashboard.html';
+                } else {
+                    window.location.href = 'dashboard.html';
+                }
+            } else {
+                console.warn('Login failed:', data.message);
+                alert('❌ Login Failed - Invalid Credentials');
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            alert('❌ Login Error: ' + error.message);
         }
     });
 }
@@ -50,26 +65,50 @@ if (loginForm) {
 // --- DASHBOARD LOGIC ---
 async function loadDashboard() {
     const user = JSON.parse(localStorage.getItem('user'));
-    if (!user) window.location.href = 'index.html';
+    if (!user) {
+        window.location.href = 'index.html';
+        return;
+    }
 
+    console.log('Loading dashboard for user:', user.name);
+    
     // Update greeting
-    document.getElementById('userGreeting').innerText = `Welcome back, ${user.name}`;
+    const greeting = document.getElementById('userGreeting');
+    if (greeting) {
+        greeting.innerText = `Welcome back, ${user.name}`;
+    }
 
     try {
         // Load stats
+        console.log('Fetching stats from:', `${API_URL}/stats/${user._id}`);
         const statsRes = await fetch(`${API_URL}/stats/${user._id}`);
+        
+        if (!statsRes.ok) {
+            throw new Error(`Stats API error: ${statsRes.status}`);
+        }
+        
         const stats = await statsRes.json();
+        console.log('Stats loaded:', stats);
+        
         document.getElementById('statTotal').innerText = stats.total;
         document.getElementById('statPending').innerText = stats.pending;
         document.getElementById('statInProgress').innerText = stats.inProgress;
         document.getElementById('statResolved').innerText = stats.resolved;
 
         // Load complaints
+        console.log('Fetching complaints from:', `${API_URL}/complaints/${user._id}`);
         const compRes = await fetch(`${API_URL}/complaints/${user._id}`);
+        
+        if (!compRes.ok) {
+            throw new Error(`Complaints API error: ${compRes.status}`);
+        }
+        
         allComplaints = await compRes.json();
+        console.log('Complaints loaded:', allComplaints.length, 'complaints');
         displayComplaints(allComplaints);
     } catch (error) {
         console.error('Error loading dashboard:', error);
+        alert('Error loading dashboard: ' + error.message);
     }
 }
 
@@ -136,6 +175,8 @@ const newComplaintForm = document.getElementById('newComplaintForm');
 if (newComplaintForm) {
     newComplaintForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        console.log('Submitting new complaint...');
+        
         const user = JSON.parse(localStorage.getItem('user'));
         
         const complaintData = {
@@ -150,17 +191,36 @@ if (newComplaintForm) {
             status: 'Pending',
             department: 'Public Works'
         };
+        
+        console.log('Complaint data:', complaintData);
 
-        await fetch(`${API_URL}/complaints`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(complaintData)
-        });
-
-        // Reset form
-        newComplaintForm.reset();
-        hideComplaintForm();
-        loadDashboard();
+        try {
+            const res = await fetch(`${API_URL}/complaints`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(complaintData)
+            });
+            
+            if (!res.ok) {
+                throw new Error(`API error: ${res.status}`);
+            }
+            
+            const result = await res.json();
+            console.log('Complaint submitted successfully:', result);
+            
+            // Reset form
+            newComplaintForm.reset();
+            hideComplaintForm();
+            
+            // Show success message
+            alert('✅ Complaint submitted successfully! Refresh to see it in your list.');
+            
+            // Reload dashboard
+            await loadDashboard();
+        } catch (error) {
+            console.error('Error submitting complaint:', error);
+            alert('❌ Error submitting complaint: ' + error.message);
+        }
     });
 }
 

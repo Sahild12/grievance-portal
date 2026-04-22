@@ -1,11 +1,17 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static('public'));
+
+// Serve public assets (CSS, JS, images)
+app.use(express.static(path.join(__dirname, '../public')));
+
+// Serve HTML pages
+app.use(express.static(path.join(__dirname, '../pages')));
 
 // Mock Data Storage
 const users = [
@@ -103,10 +109,12 @@ app.post('/api/complaints', (req, res) => {
     const newComplaint = {
         _id: Date.now().toString(),
         ...req.body,
-        filedDate: new Date()
+        filedDate: new Date(),
+        status: 'Pending'
     };
     complaints.push(newComplaint);
-    res.json({ success: true, message: 'Complaint Filed' });
+    console.log('✓ New complaint filed:', newComplaint._id);
+    res.json({ success: true, message: 'Complaint Filed Successfully', complaint: newComplaint });
 });
 
 app.put('/api/complaints/:id', (req, res) => {
