@@ -6,6 +6,7 @@
     <title>Official Dashboard - Grievance Portal</title>
     <link rel="stylesheet" href="/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/js/official-dashboard.js" defer></script>
 </head>
 <body class="dashboard-body">
     <!-- Dashboard Container -->
@@ -197,22 +198,69 @@
         </div>
     <!-- ==================== MANAGE MODAL ==================== -->
     <div id="manageModal" class="modal hidden">
-        <div class="modal-content">
+        <div class="modal-content" style="max-width: 600px;">
             <div class="modal-header">
                 <h2 id="modalTitle">Manage Complaint</h2>
-                <p class="modal-description">Update status and assignment for this complaint.</p>
+                <button onclick="closeManageModal()" style="position: absolute; right: 20px; top: 20px; border: none; font-size: 24px; cursor: pointer; background: none;">×</button>
             </div>
             
+            <!-- Complaint Details Section -->
+            <div id="complaintDetailsSection" style="margin-bottom: 25px; padding: 20px; background: #f9f9f9; border-radius: 8px; border-left: 4px solid #2196F3;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                    <div>
+                        <p style="font-size: 12px; color: #666; text-transform: uppercase;">Reference ID</p>
+                        <p style="font-size: 14px; font-weight: 600; color: #333;" id="detailRefId">GRV-2026-001</p>
+                    </div>
+                    <div>
+                        <p style="font-size: 12px; color: #666; text-transform: uppercase;">Filed Date</p>
+                        <p style="font-size: 14px; font-weight: 600; color: #333;" id="detailFiledDate">20/1/2026</p>
+                    </div>
+                    <div>
+                        <p style="font-size: 12px; color: #666; text-transform: uppercase;">Citizen</p>
+                        <p style="font-size: 14px; font-weight: 600; color: #333;" id="detailCitizen">John Doe</p>
+                    </div>
+                    <div>
+                        <p style="font-size: 12px; color: #666; text-transform: uppercase;">Priority</p>
+                        <p style="font-size: 14px; font-weight: 600; color: #f44336;" id="detailPriority">High</p>
+                    </div>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <p style="font-size: 12px; color: #666; text-transform: uppercase;">Title</p>
+                    <p style="font-size: 14px; font-weight: 600; color: #333;" id="detailTitle">Complaint Title</p>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <p style="font-size: 12px; color: #666; text-transform: uppercase;">Description</p>
+                    <p style="font-size: 13px; color: #555; line-height: 1.5;" id="detailDescription">Complaint description will appear here</p>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div>
+                        <p style="font-size: 12px; color: #666; text-transform: uppercase;">Category</p>
+                        <p style="font-size: 13px; color: #333;" id="detailCategory">Category</p>
+                    </div>
+                    <div>
+                        <p style="font-size: 12px; color: #666; text-transform: uppercase;">Location</p>
+                        <p style="font-size: 13px; color: #333;" id="detailLocation">Location</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Update Form Section -->
             <div class="complaint-form">
                 <input type="hidden" id="manageComplaintId">
                 
                 <div class="form-group">
-                    <label>Assigned Official</label>
-                    <input type="text" id="assigneeInput" placeholder="Enter official's name">
+                    <label>Assigned To Officer</label>
+                    <select id="assigneeInput">
+                        <option value="">-- Select Officer --</option>
+                        <option value="Officer John">Officer John</option>
+                        <option value="Officer Sarah">Officer Sarah</option>
+                        <option value="Officer Mike">Officer Mike</option>
+                        <option value="Officer Lisa">Officer Lisa</option>
+                    </select>
                 </div>
 
                 <div class="form-group">
-                    <label>Status</label>
+                    <label>Current Status</label>
                     <select id="updateStatusInput">
                         <option value="Pending">Pending</option>
                         <option value="In Progress">In Progress</option>
@@ -220,16 +268,18 @@
                     </select>
                 </div>
 
+                <div class="form-group">
+                    <label>Internal Notes</label>
+                    <textarea id="internalNotesInput" placeholder="Add internal notes for tracking this complaint..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; min-height: 100px; font-family: inherit;"></textarea>
+                </div>
+
                 <div class="form-buttons">
                     <button class="btn-submit" onclick="updateComplaint()">Update Complaint</button>
-                    <button class="btn-logout" onclick="closeManageModal()" style="background: white;">Cancel</button>
+                    <button class="btn-logout" onclick="closeManageModal()" style="background: white; color: #333; border: 1px solid #ddd;">Cancel</button>
                 </div>
             </div>
         </div>
     </div>
     </div>
-
-    <script src="/js/script.js"></script>
-    <script src="/js/official-dashboard.js"></script>
 </body>
 </html>

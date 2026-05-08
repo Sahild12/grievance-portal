@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Citizen Dashboard - Grievance Portal</title>
     <link rel="stylesheet" href="/css/style.css">
-    <link
-  href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css"
-  rel="stylesheet"
-/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet"/>
 </head>
 <body class="dashboard-body">
     <!-- Dashboard Container -->
@@ -121,6 +119,13 @@
                     <textarea id="cDescription" placeholder="Provide detailed information about the issue, including any relevant dates, times, or circumstances ..." rows="5" required></textarea>
                 </div>
 
+                <!-- Date of Issue -->
+                <div class="form-group">
+                    <label>Date of Issue<span class="required">*</span></label>
+                    <input type="date" id="cDateOfIssue" required>
+                    <small class="form-help">When did this issue occur?</small>
+                </div>
+
                 <!-- Location -->
                 <div class="form-group">
                     <label>Location<span class="required">*</span></label>
@@ -134,23 +139,21 @@
                 <!-- Location Preview -->
                 <div class="form-group">
                     <label>Location Preview<span class="required">*</span></label>
-                    <div class="location-preview">
-                        <div class="map-placeholder">
-                            <div class="map-icon"><i class="ri-map-pin-line"></i></div>
-                            <p>Map will display selected location<br>(Interactive map integration)</p>
-                        </div>
+                    <div class="location-preview" id="mapContainer" style="display: none;">
                     </div>
                 </div>
 
                 <!-- Supporting Documents -->
                 <div class="form-group">
                     <label>Supporting Documents / Images</label>
-                    <div class="file-upload-box">
+                    <div class="file-upload-box" id="fileUploadBox" ondrop="handleFileDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
                         <input type="file" id="cDocuments" multiple accept="image/*,.pdf,.doc,.docx" style="display: none;">
                         <div class="upload-icon"><i class="ri-file-upload-line"></i></div>
                         <p>Click to upload or drag and drop<br>Images, PDF, DOC [Max 10MB per file]</p>
                         <button type="button" class="btn-upload" onclick="document.getElementById('cDocuments').click()">Choose Files</button>
                     </div>
+                    <!-- File Preview -->
+                    <div id="filePreview" class="file-preview"></div>
                 </div>
 
                 <!-- Priority Level -->
@@ -170,7 +173,7 @@
                     <label>Contact Phone Number<span class="required">*</span></label>
                     <div class="phone-input-group">
                         <span class="phone-prefix">+91</span>
-                        <input type="tel" id="cPhone" placeholder="777-xxx-699" required>
+                        <input type="tel" id="cPhone" placeholder="Enter phone number" required>
                     </div>
                 </div>
 
@@ -188,7 +191,81 @@
             </form>
         </div>
     </div>
+    <!-- Complaint Detail View Modal -->
+    <div id="complaintDetailModal" class="modal hidden">
+        <div class="modal-content complaint-detail-modal">
+            <div class="modal-back">
+                <button class="back-btn" onclick="hideComplaintDetail()">← Back to Dashboard</button>
+            </div>
+            
+            <div class="modal-header">
+                <h2>Complaint Details</h2>
+                <p class="modal-description" id="complaintId">Reference ID: GRV-2026-001</p>
+            </div>
 
+            <div class="complaint-details-content">
+                <div class="detail-section">
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <label>Status</label>
+                            <p class="detail-value" id="detailStatus">Pending</p>
+                        </div>
+                        <div class="detail-item">
+                            <label>Priority</label>
+                            <p class="detail-value" id="detailPriority">High</p>
+                        </div>
+                        <div class="detail-item">
+                            <label>Filed Date</label>
+                            <p class="detail-value" id="detailDate">20/1/2026</p>
+                        </div>
+                        <div class="detail-item">
+                            <label>Department</label>
+                            <p class="detail-value" id="detailDept">Public Works</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>Title</h3>
+                    <p class="detail-value" id="detailTitle">Pothole on Main Street</p>
+                </div>
+
+                <div class="detail-section">
+                    <h3>Category</h3>
+                    <p class="detail-value" id="detailCategory">Roads & Infrastructure</p>
+                </div>
+
+                <div class="detail-section">
+                    <h3>Location</h3>
+                    <p class="detail-value" id="detailLocation">Main Street, Downtown</p>
+                </div>
+
+                <div class="detail-section">
+                    <h3>Description</h3>
+                    <p class="detail-value" id="detailDescription">Large pothole causing traffic issues</p>
+                </div>
+
+                <div class="detail-section">
+                    <h3>Contact Information</h3>
+                    <div class="contact-info">
+                        <p><strong>Phone:</strong> <span id="detailPhone">+91 9876543210</span></p>
+                        <p><strong>Email:</strong> <span id="detailEmail">user@example.com</span></p>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>Attached Documents</h3>
+                    <div class="attached-files" id="attachedFiles">
+                        <p style="color: #999;">No documents attached</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn-cancel" onclick="hideComplaintDetail()">Close</button>
+            </div>
+        </div>
+    </div>
     <script src="/js/script.js"></script>
 </body>
 </html>

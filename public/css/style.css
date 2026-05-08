@@ -25,6 +25,77 @@ body {
     --white: #ffffff;
 }
 
+/* ==================== LOADING SPINNER ==================== */
+.spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+.spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.spinner-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.spinner-overlay .spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+}
+
+.spinner-overlay .spinner-text {
+    position: absolute;
+    color: white;
+    margin-top: 80px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.btn-loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.btn-loading::after {
+    content: '';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
 /* ==================== LOGIN PAGE ==================== */
 .login-body {
     background: linear-gradient(135deg, #e8e4f3 0%, #f0f2f5 100%);
@@ -144,6 +215,21 @@ body {
     outline: none;
     border-color: var(--secondary-color);
     box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+}
+
+.form-group input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    margin-right: 8px;
+    accent-color: var(--secondary-color);
+}
+
+.form-group input[type="checkbox"] + label,
+.form-group label:has(input[type="checkbox"]) {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
 }
 
 .btn-primary {
@@ -555,6 +641,54 @@ body {
     background: linear-gradient(180deg, #e8e4f3 0%, #f0f2f5 100%);
     padding: 0;
     max-width: 600px;
+}
+
+.modal-content.register-modal {
+    background: linear-gradient(180deg, #e8e4f3 0%, #f0f2f5 100%);
+    padding: 0;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-content.terms-modal {
+    background: linear-gradient(180deg, #e8e4f3 0%, #f0f2f5 100%);
+    padding: 0;
+    max-width: 700px;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.terms-content {
+    padding: 30px 40px;
+    background: linear-gradient(180deg, #e8e4f3 0%, #f0f2f5 100%);
+    line-height: 1.8;
+}
+
+.terms-content h3 {
+    color: var(--primary-color);
+    margin-top: 20px;
+    margin-bottom: 12px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.terms-content p {
+    color: var(--text-light);
+    font-size: 14px;
+    margin-bottom: 12px;
+    text-align: justify;
+}
+
+.terms-content ul {
+    margin-left: 20px;
+    margin-bottom: 12px;
+    color: var(--text-light);
+    font-size: 14px;
+}
+
+.terms-content li {
+    margin-bottom: 8px;
 }
 
 .modal-back {
@@ -1231,4 +1365,471 @@ body {
 .filter-select:focus {
     outline: none;
     border-color: var(--secondary-color);
+}
+
+/* ==================== FILE UPLOAD PREVIEW ==================== */
+.file-preview {
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 12px;
+}
+
+/* ==================== NOTIFICATIONS ==================== */
+.success-notification,
+.error-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 16px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 2000;
+    animation: slideInRight 0.4s ease-out;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    max-width: 400px;
+}
+
+.success-notification {
+    background: #4caf50;
+    color: white;
+    border-left: 4px solid #388e3c;
+}
+
+.error-notification {
+    background: #f44336;
+    color: white;
+    border-left: 4px solid #d32f2f;
+}
+
+/* ==================== RESPONSIVE DESIGN - TABLET ==================== */
+@media (max-width: 1024px) {
+    .dashboard-container {
+        padding: 20px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .modal-content {
+        max-width: 90vw;
+        padding: 20px;
+    }
+    
+    .complaint-form {
+        padding: 20px;
+    }
+}
+
+/* ==================== RESPONSIVE DESIGN - MOBILE ==================== */
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
+    
+    .login-container {
+        max-width: 100%;
+        padding: 16px;
+    }
+    
+    .login-card {
+        padding: 24px;
+        border-radius: 12px;
+    }
+    
+    .portal-title {
+        font-size: 22px;
+    }
+    
+    .welcome-section h2 {
+        font-size: 18px;
+    }
+    
+    .dashboard-header {
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+    }
+    
+    .dashboard-header-right {
+        width: 100%;
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .btn-group {
+        width: 100%;
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+        padding: 12px 16px;
+        font-size: 14px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .stat-card {
+        padding: 16px;
+    }
+    
+    .stat-number {
+        font-size: 36px;
+    }
+    
+    .complaints-section {
+        padding: 16px;
+    }
+    
+    .complaint-item {
+        padding: 16px;
+    }
+    
+    .complaint-title {
+        font-size: 14px;
+    }
+    
+    .modal-content {
+        max-width: 95vw;
+        padding: 16px;
+        margin: 10px auto;
+    }
+    
+    .modal-header {
+        padding: 16px;
+    }
+    
+    .modal-header h2 {
+        font-size: 18px;
+    }
+    
+    .complaint-form {
+        padding: 16px;
+    }
+    
+    .complaint-form label {
+        font-size: 13px;
+    }
+    
+    .complaint-form input,
+    .complaint-form select,
+    .complaint-form textarea {
+        font-size: 14px;
+        padding: 10px 12px;
+    }
+    
+    .location-input-group {
+        flex-direction: column;
+    }
+    
+    .btn-use-map {
+        width: 100%;
+    }
+    
+    .file-preview {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    }
+    
+    .success-notification,
+    .error-notification {
+        max-width: 90vw;
+        left: 5vw;
+        right: 5vw;
+        top: 10px;
+    }
+    
+    .search-filter-box {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .search-input,
+    .filter-dropdown select {
+        width: 100%;
+    }
+}
+
+/* ==================== RESPONSIVE DESIGN - SMALL MOBILE ==================== */
+@media (max-width: 480px) {
+    .portal-title {
+        font-size: 18px;
+    }
+    
+    .login-card {
+        padding: 16px;
+    }
+    
+    .modal-content {
+        max-width: 100vw;
+        padding: 12px;
+        border-radius: 8px;
+    }
+    
+    .form-group {
+        margin-bottom: 16px;
+    }
+    
+    .btn {
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+    
+    .stat-number {
+        font-size: 28px;
+    }
+    
+    .complaint-meta {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .complaint-badges {
+        flex-direction: column;
+    }
+    
+    .status-badge,
+    .priority-badge {
+        width: fit-content;
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.file-preview-item {
+    position: relative;
+    background: #f9fafc;
+    border: 1px solid #e8eef7;
+    border-radius: 8px;
+    padding: 8px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.file-preview-item.image {
+    padding: 0;
+}
+
+.file-preview-item img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.file-preview-item.document {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+}
+
+.file-icon {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+.file-name {
+    font-size: 11px;
+    color: #666;
+    word-break: break-all;
+}
+
+.file-size {
+    font-size: 10px;
+    color: #999;
+    margin-top: 4px;
+}
+
+.remove-file {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--accent-red);
+    color: white;
+    border: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.file-preview-item:hover .remove-file {
+    opacity: 1;
+}
+
+.remove-file:hover {
+    background: #d32f2f;
+}
+
+.file-upload-box.dragover {
+    border-color: var(--secondary-color);
+    background: #f5f3ff;
+}
+
+/* ==================== COMPLAINT DETAIL MODAL ==================== */
+.complaint-detail-modal {
+    max-width: 700px;
+    padding: 0;
+}
+
+.complaint-details-content {
+    padding: 30px 40px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.detail-section {
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e8eef7;
+}
+
+.detail-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.detail-section h3 {
+    font-size: 14px;
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-item label {
+    font-size: 12px;
+    color: #999;
+    font-weight: 500;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+.detail-value {
+    font-size: 15px;
+    color: var(--primary-color);
+    font-weight: 500;
+    margin: 0;
+}
+
+.contact-info {
+    background: #f9fafc;
+    padding: 16px;
+    border-radius: 8px;
+}
+
+.contact-info p {
+    margin: 8px 0;
+    font-size: 14px;
+    color: var(--primary-color);
+}
+
+.contact-info strong {
+    color: #666;
+    font-weight: 600;
+}
+
+.attached-files {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.attached-file-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    background: #f9fafc;
+    border: 1px solid #e8eef7;
+    border-radius: 6px;
+}
+
+.attached-file-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.attached-file-icon {
+    font-size: 24px;
+}
+
+.attached-file-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.attached-file-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--primary-color);
+}
+
+.attached-file-size {
+    font-size: 11px;
+    color: #999;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 20px 40px;
+    background: var(--white);
+    border-top: 1px solid #e8eef7;
+}
+
+/* ==================== MAP STYLES ==================== */
+#map {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.leaflet-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.leaflet-popup-content-wrapper {
+    border-radius: 8px;
+}
+
+.leaflet-control-attribution {
+    font-size: 10px;
 }
