@@ -17,7 +17,7 @@ app.use(express.static(path.join(__dirname, '../pages')));
 const users = [
     {
         _id: '1',
-        name: 'Raj Kumar',
+        name: 'Raj',
         idNumber: '12345',
         password: 'password123',
         role: 'citizen',

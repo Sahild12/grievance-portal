@@ -527,7 +527,8 @@ body {
 }
 
 .status-badge {
-    padding: 4px 12px;
+    padding: 3px 8px;
+    background-color: #94b5ff;
     border-radius: 20px;
     font-size: 12px;
     font-weight: 600;
