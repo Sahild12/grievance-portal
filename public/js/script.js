@@ -681,8 +681,11 @@ function formatFileSize(bytes) {
     return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
 }
 
+let currentOpenComplaintId = null;
+
 // --- COMPLAINT DETAIL VIEW ---
 function showComplaintDetail(complaintId) {
+    currentOpenComplaintId = complaintId;
     const complaint = allComplaints.find(c => c._id === complaintId);
     if (!complaint) return;
     
@@ -725,6 +728,7 @@ function showComplaintDetail(complaintId) {
 }
 
 function hideComplaintDetail() {
+    currentOpenComplaintId = null;
     const modal = document.getElementById('complaintDetailModal');
     modal.classList.add('hidden');
     modal.style.display = 'none';
@@ -746,7 +750,41 @@ function logout() {
     window.location.href = 'index.html';
 }
 
+async function pollDashboard() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user) return;
+
+    try {
+        const statsRes = await fetch(`${API_URL}/stats/${user._id}`);
+        if (statsRes.ok) {
+            const stats = await statsRes.json();
+            document.getElementById('statTotal').innerText = stats.total;
+            document.getElementById('statPending').innerText = stats.pending;
+            document.getElementById('statInProgress').innerText = stats.inProgress;
+            document.getElementById('statResolved').innerText = stats.resolved;
+        }
+
+        const compRes = await fetch(`${API_URL}/complaints/${user._id}`);
+        if (compRes.ok) {
+            const newComplaints = await compRes.json();
+            // Check if there are changes to avoid unnecessary re-rendering
+            if (JSON.stringify(newComplaints) !== JSON.stringify(allComplaints)) {
+                allComplaints = newComplaints;
+                filterComplaints(); // Update the view applying current filters
+                
+                // If a modal is currently open, update its content
+                if (currentOpenComplaintId) {
+                    showComplaintDetail(currentOpenComplaintId);
+                }
+            }
+        }
+    } catch (error) {
+        console.error('Polling error:', error);
+    }
+}
+
 // Load dashboard on page load
 if (document.getElementById('complaintsList')) {
     loadDashboard();
+    setInterval(pollDashboard, 5000); // Poll every 5 seconds for dynamic updates
 }

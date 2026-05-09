@@ -74,7 +74,8 @@ const complaintSchema = new mongoose.Schema({
     fileUrl: { type: String },
     filedDate: { type: Date, default: Date.now },
     resolvedDate: { type: Date },
-    comments: [{ text: String, date: Date }]
+    comments: [{ text: String, date: Date }],
+    internalNotes: { type: String }
 });
 
 const User = mongoose.model('User', userSchema);
@@ -317,11 +318,13 @@ app.post('/api/complaints', async (req, res) => {
 // UPDATE COMPLAINT
 app.put('/api/complaints/:id', async (req, res) => {
     try {
-        const { status, assigned } = req.body;
+        const { status, assigned, priority, internalNotes } = req.body;
         const updateData = {};
         
         if (status) updateData.status = status;
         if (assigned) updateData.assigned = assigned;
+        if (priority) updateData.priority = priority;
+        if (internalNotes !== undefined) updateData.internalNotes = internalNotes;
         
         const complaint = await Complaint.findByIdAndUpdate(
             req.params.id,

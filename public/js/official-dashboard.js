@@ -550,6 +550,9 @@ function openManageModal(complaintId) {
     document.getElementById('manageComplaintId').value = complaint._id;
     document.getElementById('assigneeInput').value = complaint.assigned && complaint.assigned !== 'Unassigned' ? complaint.assigned : '';
     document.getElementById('updateStatusInput').value = complaint.status || 'Pending';
+    if (document.getElementById('updatePriorityInput')) {
+        document.getElementById('updatePriorityInput').value = complaint.priority || 'Medium';
+    }
     document.getElementById('internalNotesInput').value = complaint.internalNotes || '';
     
     document.getElementById('manageModal').classList.remove('hidden');
@@ -563,6 +566,7 @@ async function updateComplaint() {
     const id = document.getElementById('manageComplaintId').value;
     const assigned = document.getElementById('assigneeInput').value;
     const status = document.getElementById('updateStatusInput').value;
+    const priority = document.getElementById('updatePriorityInput') ? document.getElementById('updatePriorityInput').value : undefined;
     const internalNotes = document.getElementById('internalNotesInput').value;
 
     try {
@@ -571,7 +575,7 @@ async function updateComplaint() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ assigned, status, internalNotes })
+            body: JSON.stringify({ assigned, status, priority, internalNotes })
         });
 
         const result = await response.json();

@@ -1100,6 +1100,12 @@ body {
 .chart-container {
     position: relative;
     height: 300px;
+    width: 100%;
+    max-width: 100%;
+}
+
+.chart-container canvas {
+    max-width: 100% !important;
 }
 
 .pie-chart-container {
@@ -1167,6 +1173,7 @@ body {
 
 .status-badge-official {
     padding: 4px 12px;
+    background-color: red;
     border-radius: 20px;
     font-size: 12px;
     font-weight: 600;
@@ -1177,9 +1184,9 @@ body {
     color: var(--accent-orange);
 }
 
-.status-badge-official.In\ Progress {
-    background: #cce5ff;
-    color: var(--accent-blue);
+.status-badge-official.Progress {
+    background: #6091fe;
+    
 }
 
 .status-badge-official.Resolved {
@@ -1480,6 +1487,10 @@ body {
         padding: 16px;
     }
     
+    .chart-card {
+        padding: 16px;
+    }
+    
     .stat-number {
         font-size: 36px;
     }
@@ -1554,6 +1565,42 @@ body {
     .search-input,
     .filter-dropdown select {
         width: 100%;
+    }
+    
+    /* Official Dashboard Specifics */
+    .tab-navigation {
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 12px;
+        gap: 8px;
+    }
+    
+    .tab-btn {
+        flex: 1 1 40%;
+        text-align: center;
+        padding: 8px;
+    }
+    
+    .charts-grid,
+    .metrics-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    
+    .filters-row {
+        flex-direction: column;
+    }
+    
+    .filter-select {
+        max-width: 100%;
+    }
+    
+    .complaint-footer-official {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    .detail-grid-responsive {
+        grid-template-columns: 1fr !important;
     }
 }
 
