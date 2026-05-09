@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../public')));
 
 // Serve HTML pages
-app.use(express.static(path.join(__dirname, '../pages')));
+app.use(express.static(path.join(__dirname, '../')));
 
 // ==================== MONGODB CONNECTION ====================
 const MONGODB_URI = 'mongodb+srv://pruthvirajdesai19_db_user:pMeYcs8iy6DWoQ0F@gov-citizen.ks77ae6.mongodb.net/?appName=gov-citizen';
