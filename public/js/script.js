@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'https://grievance-portal-api.onrender.com/api';
 let selectedRole = 'citizen'; // Track selected role
 let allComplaints = []; // Store all complaints for filtering
 
