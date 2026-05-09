@@ -15,7 +15,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.static(path.join(__dirname, '../')));
 
 // ==================== MONGODB CONNECTION ====================
-const MONGODB_URI = 'mongodb+srv://pruthvirajdesai19_db_user:pMeYcs8iy6DWoQ0F@gov-citizen.ks77ae6.mongodb.net/?appName=gov-citizen';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://pruthvirajdesai19_db_user:pMeYcs8iy6DWoQ0F@gov-citizen.ks77ae6.mongodb.net/?appName=gov-citizen';
 // Direct URI fallback to bypass DNS SRV lookup issues (querySrv ETIMEOUT)
 const DIRECT_URI = 'mongodb://pruthvirajdesai19_db_user:pMeYcs8iy6DWoQ0F@ac-mwwwyt0-shard-00-00.ks77ae6.mongodb.net:27017,ac-mwwwyt0-shard-00-01.ks77ae6.mongodb.net:27017,ac-mwwwyt0-shard-00-02.ks77ae6.mongodb.net:27017/?ssl=true&replicaSet=atlas-mwwwyt0-shard-0&authSource=admin&retryWrites=true&w=majority&appName=gov-citizen';
 
@@ -384,7 +384,8 @@ app.get('/api/stats/all', async (req, res) => {
 });
 
 // START SERVER
-app.listen(3000, () => {
-    console.log('✓ Server running on http://localhost:3000');
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`✓ Server running on port ${PORT}`);
     console.log('✓ Connected to MongoDB');
 });
