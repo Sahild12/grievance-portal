@@ -87,13 +87,14 @@ async function loadOfficialDashboard() {
         const statsRes = await fetch(`${API_URL}/stats/all`);
         const stats = await statsRes.json();
         
-        document.getElementById('totalComplaints').innerText = stats.total || '88';
-        document.getElementById('pendingComplaints').innerText = stats.pending || '15';
-        document.getElementById('inProgressComplaints').innerText = stats.inProgress || '28';
-        document.getElementById('resolvedComplaints').innerText = stats.resolved || '45';
+        document.getElementById('totalComplaints').innerText = stats.total !== undefined ? stats.total : '0';
+        document.getElementById('pendingComplaints').innerText = stats.pending !== undefined ? stats.pending : '0';
+        document.getElementById('inProgressComplaints').innerText = stats.inProgress !== undefined ? stats.inProgress : '0';
+        document.getElementById('resolvedComplaints').innerText = stats.resolved !== undefined ? stats.resolved : '0';
         
         displayOfficialComplaints(allOfficialComplaints);
-        initializeCharts();
+        const chartData = calculateChartData(allOfficialComplaints);
+        initializeCharts(chartData);
         updateMetrics(allOfficialComplaints);
     } catch (error) {
         console.error('Error loading official dashboard:', error);
@@ -112,13 +113,14 @@ function loadMockOfficialData() {
     ];
     
     allOfficialComplaints = mockComplaints;
-    document.getElementById('totalComplaints').innerText = '88';
-    document.getElementById('pendingComplaints').innerText = '15';
-    document.getElementById('inProgressComplaints').innerText = '28';
-    document.getElementById('resolvedComplaints').innerText = '45';
+    document.getElementById('totalComplaints').innerText = '5';
+    document.getElementById('pendingComplaints').innerText = '2';
+    document.getElementById('inProgressComplaints').innerText = '2';
+    document.getElementById('resolvedComplaints').innerText = '0';
     
     displayOfficialComplaints(allOfficialComplaints);
-    initializeCharts();
+    const chartData = calculateChartData(allOfficialComplaints);
+    initializeCharts(chartData);
     updateMetrics(allOfficialComplaints);
 }
 
@@ -224,15 +226,17 @@ function switchTab(tabName, btnElement) {
     // Reinitialize charts if switching to overview
     if (tabName === 'overview') {
         setTimeout(() => {
-            if (categoryChart && typeof categoryChart.resize === 'function') {
-                categoryChart.resize();
+            const chartData = calculateChartData(allOfficialComplaints);
+            if (categoryChart) {
+                categoryChart.destroy();
             }
-            if (trendChart && typeof trendChart.resize === 'function') {
-                trendChart.resize();
+            if (trendChart) {
+                trendChart.destroy();
             }
-            if (resolutionChart && typeof resolutionChart.resize === 'function') {
-                resolutionChart.resize();
+            if (resolutionChart) {
+                resolutionChart.destroy();
             }
+            initializeCharts(chartData);
         }, 100);
     }
 }
@@ -373,16 +377,24 @@ function calculateChartData(complaints) {
     };
 }
 
-function initializeCharts() {
+function initializeCharts(chartData) {
+    if (!chartData) {
+        chartData = {
+            categoryLabels: [], categoryData: [],
+            trendLabels: [], trendReceived: [], trendResolved: [],
+            resolutionLabels: [], resolutionData: []
+        };
+    }
+
     // Pie Chart - Complaints by Category
     const pieCtx = document.getElementById('categoryChart');
     if (pieCtx) {
         categoryChart = new Chart(pieCtx, {
             type: 'doughnut',
             data: {
-                labels: ['Roads', 'Water', 'Electricity', 'Other'],
+                labels: chartData.categoryLabels.length ? chartData.categoryLabels : ['No Data'],
                 datasets: [{
-                    data: [38, 34, 12, 16],
+                    data: chartData.categoryData.length ? chartData.categoryData : [1],
                     backgroundColor: [
                         '#2196F3',
                         '#4CAF50',
@@ -416,11 +428,11 @@ function initializeCharts() {
         trendChart = new Chart(lineCtx, {
             type: 'line',
             data: {
-                labels: ['Sep', 'Oct', 'Nov', 'Dec', 'Jan'],
+                labels: chartData.trendLabels.length ? chartData.trendLabels : ['No Data'],
                 datasets: [
                     {
                         label: 'Received',
-                        data: [65, 75, 70, 80, 85],
+                        data: chartData.trendReceived.length ? chartData.trendReceived : [0],
                         borderColor: '#2196F3',
                         backgroundColor: 'rgba(33, 150, 243, 0.1)',
                         tension: 0.4,
@@ -432,7 +444,7 @@ function initializeCharts() {
                     },
                     {
                         label: 'Resolved',
-                        data: [60, 68, 65, 75, 80],
+                        data: chartData.trendResolved.length ? chartData.trendResolved : [0],
                         borderColor: '#4CAF50',
                         backgroundColor: 'rgba(76, 175, 80, 0.1)',
                         tension: 0.4,
@@ -479,10 +491,10 @@ function initializeCharts() {
         resolutionChart = new Chart(barCtx, {
             type: 'bar',
             data: {
-                labels: ['Roads', 'Water', 'Electricity', 'Parks'],
+                labels: chartData.resolutionLabels.length ? chartData.resolutionLabels : ['No Data'],
                 datasets: [{
                     label: 'Days to Resolve',
-                    data: [7, 5, 10, 4],
+                    data: chartData.resolutionData.length ? chartData.resolutionData : [0],
                     backgroundColor: '#2196F3',
                     borderRadius: 6,
                     borderSkipped: false
