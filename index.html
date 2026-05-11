@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Citizen Grievance Portal - Login</title>
-    <link rel="stylesheet" href="public/css/style.css?v=1.1">
+    <link rel="stylesheet" href="public/css/style.css?v=1.3">
 </head>
+
 <body class="login-body">
     <div class="login-container">
         <div class="login-card">
@@ -16,7 +18,7 @@
 
             <div class="welcome-section">
                 <h2>Welcome</h2>
-                <p>Login to file  complaints and track grievances</p>
+                <p>Login to file complaints and track grievances</p>
             </div>
 
             <div class="role-toggle">
@@ -29,18 +31,19 @@
                     <label for="idInput">Government ID / Aadhaar Number</label>
                     <input type="text" id="idInput" placeholder="Enter your ID number" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="passwordInput">Password</label>
                     <input type="password" id="passwordInput" placeholder="Enter your password" required>
                 </div>
-                
+
                 <button type="submit" class="btn-primary btn-login">Login as Citizen</button>
             </form>
 
             <div class="login-footer">
                 <p>Don't have an account? <a href="#" onclick="openRegisterModal()" class="link">Register here</a></p>
-                <p class="terms">By logging in, you agree to our <a href="#" onclick="openTermsModal()" class="link">Terms & Conditions</a></p>
+                <p class="terms">By logging in, you agree to our <a href="#" onclick="openTermsModal()"
+                        class="link">Terms & Conditions</a></p>
             </div>
         </div>
     </div>
@@ -84,7 +87,8 @@
                 <div class="form-group" style="margin-bottom: 24px;">
                     <label>
                         <input type="checkbox" id="regAgreeTerms" required>
-                        I agree to the <a href="#" onclick="openTermsModal(); return false;" class="link">Terms & Conditions</a>
+                        I agree to the <a href="#" onclick="openTermsModal(); return false;" class="link">Terms &
+                            Conditions</a>
                     </label>
                 </div>
                 <button type="submit" class="btn-primary" style="width: 100%;">Create Account</button>
@@ -104,11 +108,13 @@
             </div>
             <div class="terms-content">
                 <h3>1. User Agreement</h3>
-                <p>By using the Citizen Grievance Portal, you agree to comply with these terms and conditions. This platform is designed to help citizens file and track grievances with government departments.</p>
-                
+                <p>By using the Citizen Grievance Portal, you agree to comply with these terms and conditions. This
+                    platform is designed to help citizens file and track grievances with government departments.</p>
+
                 <h3>2. User Responsibilities</h3>
-                <p>Users are responsible for maintaining the confidentiality of their login credentials. All activities performed under your account are your responsibility. Do not share your password with anyone.</p>
-                
+                <p>Users are responsible for maintaining the confidentiality of their login credentials. All activities
+                    performed under your account are your responsibility. Do not share your password with anyone.</p>
+
                 <h3>3. Prohibited Activities</h3>
                 <p>You agree not to:</p>
                 <ul>
@@ -118,32 +124,42 @@
                     <li>Interfere with the normal operation of the portal</li>
                     <li>Upload malicious files or content</li>
                 </ul>
-                
+
                 <h3>4. Privacy Policy</h3>
-                <p>Your personal information will be used only for processing your grievances. We follow strict data protection protocols. Your information will not be shared with third parties without your consent.</p>
-                
+                <p>Your personal information will be used only for processing your grievances. We follow strict data
+                    protection protocols. Your information will not be shared with third parties without your consent.
+                </p>
+
                 <h3>5. Complaint Filing</h3>
-                <p>All complaints must be factual and relevant to government services. Complaints found to be false or frivolous may be rejected. The government reserves the right to take appropriate action against misuse.</p>
-                
+                <p>All complaints must be factual and relevant to government services. Complaints found to be false or
+                    frivolous may be rejected. The government reserves the right to take appropriate action against
+                    misuse.</p>
+
                 <h3>6. Intellectual Property</h3>
-                <p>All content on this portal is owned by the government and protected by copyright laws. You may not reproduce, distribute, or transmit any content without permission.</p>
-                
+                <p>All content on this portal is owned by the government and protected by copyright laws. You may not
+                    reproduce, distribute, or transmit any content without permission.</p>
+
                 <h3>7. Limitation of Liability</h3>
-                <p>The portal is provided "as is" without warranties. We are not liable for any damages arising from the use or inability to use the portal.</p>
-                
+                <p>The portal is provided "as is" without warranties. We are not liable for any damages arising from the
+                    use or inability to use the portal.</p>
+
                 <h3>8. Changes to Terms</h3>
-                <p>We reserve the right to modify these terms at any time. Continued use of the portal constitutes acceptance of the modified terms.</p>
-                
+                <p>We reserve the right to modify these terms at any time. Continued use of the portal constitutes
+                    acceptance of the modified terms.</p>
+
                 <h3>9. Governing Law</h3>
-                <p>These terms are governed by the laws of the country. Any disputes will be resolved in the appropriate court.</p>
-                
+                <p>These terms are governed by the laws of the country. Any disputes will be resolved in the appropriate
+                    court.</p>
+
                 <h3>10. Contact</h3>
                 <p>For questions about these terms, please contact our support team at support@grievanceportal.gov</p>
             </div>
-            <button onclick="closeTermsModal()" class="btn-primary" style="width: 100%; margin: 20px 0;">I Understand</button>
+            <button onclick="closeTermsModal()" class="btn-primary" style="width: 100%; margin: 20px 0;">I
+                Understand</button>
         </div>
     </div>
 
     <script src="public/js/script.js?v=1.1"></script>
 </body>
+
 </html>
