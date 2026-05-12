@@ -1,3 +1,4 @@
+@import '../../node_modules/remixicon/fonts/remixicon.css';
 /* ==================== GENERAL STYLES ==================== */
 * {
     margin: 0;
@@ -6,6 +7,7 @@
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 
 body {
     font-family: 'Inter', sans-serif;
@@ -220,12 +222,28 @@ body {
     transition: border-color 0.3s;
 }
 
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
+.form-group input:focus {
     outline: none;
     border-color: var(--secondary-color);
     box-shadow: 0 0 0 0.188rem rgba(108, 92, 231, 0.1);
+}
+
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper input {
+    width: 100%;
+    padding-right: 2.5rem; /* Make space for the icon */
+}
+
+.password-wrapper i {
+    position: absolute;
+    right: 1rem;
+    cursor: pointer;
+    color: var(--text-light);
 }
 
 .form-group input[type="checkbox"] {

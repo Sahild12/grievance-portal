@@ -202,6 +202,40 @@ roleBtns.forEach(btn => {
     });
 });
 
+// --- PASSWORD VISIBILITY TOGGLE ---
+function setupPasswordToggle(inputId, toggleId) {
+    const passwordInput = document.getElementById(inputId);
+    const togglePassword = document.getElementById(toggleId);
+
+    if (passwordInput && togglePassword) {
+        passwordInput.addEventListener('input', () => {
+            if (passwordInput.value.length > 0) {
+                togglePassword.style.display = 'block';
+            } else {
+                togglePassword.style.display = 'none';
+            }
+        });
+
+        togglePassword.addEventListener('click', () => {
+            // Toggle the type attribute
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            
+            // Toggle the icon
+            togglePassword.classList.toggle('ri-eye-line');
+            togglePassword.classList.toggle('ri-eye-off-line');
+        });
+    }
+}
+
+// Setup for login form
+setupPasswordToggle('passwordInput', 'togglePassword');
+
+// Setup for registration form
+setupPasswordToggle('regPassword', 'toggleRegPassword');
+setupPasswordToggle('regConfirmPassword', 'toggleRegConfirmPassword');
+
+
 // --- LOGIN LOGIC ---
 const loginForm = document.getElementById('loginForm');
 if (loginForm) {
@@ -317,10 +351,10 @@ function displayComplaints(complaints) {
             <div class="complaint-category">${c.category}</div>
             <div class="complaint-meta">
                 <div class="complaint-meta-item">
-                    <span>🏢 Assigned to: ${c.department || 'Public Works Dept.'}</span>
+                    <span><i class="ri-government-line"></i> Assigned to: ${c.department || 'Public Works Dept.'}</span>
                 </div>
                 <div class="complaint-meta-item">
-                    <span>📅 Filed: ${new Date(c.filedDate).toLocaleDateString('en-IN')}</span>
+                    <span> <i class="ri-calendar-line"></i> Filed: ${new Date(c.filedDate).toLocaleDateString('en-IN')}</span>
                 </div>
             </div>
         </div>
