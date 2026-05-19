@@ -9,10 +9,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 
-body {
+html, body {
     font-family: 'Inter', sans-serif;
     background: var(--light-bg);
     color: var(--primary-color);
+    overflow-x: hidden;
+    max-width: 100%;
+    width: 100%;
+    position: relative;
 }
 
 :root {
@@ -416,6 +420,7 @@ body {
                       radial-gradient(at 80% 0%, hsla(189,100%,56%,0.2) 0px, transparent 50%),
                       radial-gradient(at 0% 50%, hsla(355,100%,93%,0.2) 0px, transparent 50%);
     min-height: 100vh;
+    overflow-x: hidden;
 }
 
 .dashboard-container {
@@ -604,6 +609,7 @@ body {
 
 .search-filter-box {
     margin-bottom: 1.25rem;
+    margin-top: 1.25rem;
 }
 
 .search-input {
@@ -1206,10 +1212,19 @@ body {
 
 /* ==================== RESPONSIVE ==================== */
 @media (max-width: 48rem) {
+    .dashboard-container {
+        padding: 1rem 0.5rem;
+    }
+
     .dashboard-header {
         flex-direction: column;
         align-items: flex-start;
         gap: 1rem;
+        padding: 1rem;
+    }
+    
+    .dashboard-title {
+        font-size: 1.5rem;
     }
 
     .header-right {
@@ -1241,7 +1256,9 @@ body {
     display: flex;
     gap: 0.75rem;
     margin-bottom: 1.875rem;
-    background: var(--white);
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(25px) saturate(200%);
+    -webkit-backdrop-filter: blur(25px) saturate(200%);
     padding: 1rem 1.875rem;
     border-radius: 0.75rem;
     box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.08);
